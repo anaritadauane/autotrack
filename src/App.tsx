@@ -5,7 +5,8 @@ import { HistoryScreen } from './components/HistoryScreen';
 import { UserProfileScreen } from './components/UserProfileScreen';
 import { PaymentsScreen } from './components/PaymentsScreen';
 import { supabase, apiRequest } from './utils/supabase/client';
-import { Toaster } from 'sonner';
+import { Toaster } from "./components/ui/sonner";
+
 
 type Screen = 'login' | 'dashboard' | 'history' | 'profile' | 'payments';
 
