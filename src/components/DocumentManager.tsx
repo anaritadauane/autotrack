@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -6,15 +6,19 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { ArrowLeft, Upload, FileText, Eye, Calendar, Plus, Download, X } from 'lucide-react';
+import { ArrowLeft, Upload, FileText, Calendar, Plus, Download, X, Shield, ClipboardCheck, DollarSign, File, Sparkles } from 'lucide-react';
 import { apiRequest } from '../utils/supabase/client';
 import { toast } from 'sonner';
 import { projectId } from '../utils/supabase/info';
 import { supabase } from '../utils/supabase/client';
-import { Vehicle } from '../types/vehicle';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface DocumentManagerProps {
-  vehicle: Vehicle;
+  vehicle: {
+    id: string;
+    name: string;
+    plate: string;
+  };
   onClose: () => void;
 }
 
@@ -223,6 +227,36 @@ export function DocumentManager({ vehicle, onClose }: DocumentManagerProps) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
+  const getDocumentIcon = (type: string) => {
+    switch (type) {
+      case 'insurance':
+        return <Shield className="w-5 h-5" />;
+      case 'inspection':
+        return <ClipboardCheck className="w-5 h-5" />;
+      case 'taxes':
+        return <DollarSign className="w-5 h-5" />;
+      case 'registration':
+        return <File className="w-5 h-5" />;
+      default:
+        return <FileText className="w-5 h-5" />;
+    }
+  };
+
+  const getDocumentColor = (type: string) => {
+    switch (type) {
+      case 'insurance':
+        return 'from-blue-500 to-blue-600';
+      case 'inspection':
+        return 'from-purple-500 to-purple-600';
+      case 'taxes':
+        return 'from-green-500 to-green-600';
+      case 'registration':
+        return 'from-orange-500 to-orange-600';
+      default:
+        return 'from-gray-500 to-gray-600';
+    }
+  };
+
   return (
     <div className="flex flex-col h-full bg-white">
       {/* Header */}
@@ -242,8 +276,16 @@ export function DocumentManager({ vehicle, onClose }: DocumentManagerProps) {
       <div className="flex-1 overflow-y-auto">
         <div className="p-4">
           {/* Add Document Button */}
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="font-medium">Documentos da Viatura</h3>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="flex justify-between items-center mb-6"
+          >
+            <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-blue-600" />
+              Seus Documentos
+            </h3>
             <Button 
               onClick={() => setShowAddForm(!showAddForm)}
               className="bg-red-500 hover:bg-red-600"
@@ -251,13 +293,26 @@ export function DocumentManager({ vehicle, onClose }: DocumentManagerProps) {
               <Plus className="w-4 h-4 mr-2" />
               Adicionar Documento
             </Button>
-          </div>
+          </motion.div>
 
           {/* Add Document Form */}
-          {showAddForm && (
-            <Card className="mb-6">
-              <CardContent className="pt-6">
-                <form onSubmit={handleSubmit} className="space-y-4">
+          <AnimatePresence>
+            {showAddForm && (
+              <motion.div
+                initial={{ opacity: 0, height: 0, y: -20 }}
+                animate={{ opacity: 1, height: 'auto', y: 0 }}
+                exit={{ opacity: 0, height: 0, y: -20 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              >
+                <Card className="mb-6 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 shadow-lg">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-blue-900">
+                      <Upload className="w-5 h-5" />
+                      Novo Documento
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={handleSubmit} className="space-y-4">
                   {formData.file && (
                     <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg border">
                       <FileText className="w-4 h-4 text-blue-600" />
@@ -281,7 +336,7 @@ export function DocumentManager({ vehicle, onClose }: DocumentManagerProps) {
                       <Label htmlFor="documentType">Tipo de Documento *</Label>
                       <Select 
                         value={formData.type} 
-                        onValueChange={(value: any) => setFormData(prev => ({ ...prev, type: value }))}
+                        onValueChange={(value) => setFormData(prev => ({ ...prev, type: value }))}
                         required
                       >
                         <SelectTrigger>
@@ -359,39 +414,70 @@ export function DocumentManager({ vehicle, onClose }: DocumentManagerProps) {
                       {isLoading ? 'Salvando...' : 'Salvar'}
                     </Button>
                   </div>
-                </form>
-              </CardContent>
-            </Card>
-          )}
+                    </form>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Documents List */}
           {isLoading && !showAddForm ? (
-            <div className="text-center py-8">
-              <p className="text-gray-500">Carregando documentos...</p>
-            </div>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-12"
+            >
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full mx-auto mb-4"
+              />
+              <p className="text-gray-600">Carregando documentos...</p>
+            </motion.div>
           ) : documents.length === 0 ? (
-            <div className="text-center py-8">
-              <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-              <p className="text-gray-500 mb-3">Nenhum documento encontrado</p>
-              <p className="text-sm text-gray-400">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-center py-12 px-4"
+            >
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FileText className="w-10 h-10 text-blue-500" />
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-2">Nenhum documento encontrado</h3>
+              <p className="text-sm text-gray-500 mb-4">
                 Adicione documentos como seguros, inspeções e impostos para manter tudo organizado.
               </p>
-            </div>
+              <Button onClick={() => setShowAddForm(true)} className="bg-gradient-to-r from-blue-600 to-indigo-600">
+                <Plus className="w-4 h-4 mr-2" />
+                Adicionar Primeiro Documento
+              </Button>
+            </motion.div>
           ) : (
-            <div className="space-y-4">
-              {documents.map((document) => (
-                <Card key={document.id} className="border-l-4 border-l-blue-500">
-                  <CardContent className="pt-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <FileText className="w-4 h-4 text-gray-500" />
-                          <h4 className="font-medium">{document.name}</h4>
-                          <Badge variant="outline">
-                            {documentTypes.find(t => t.value === document.type)?.label}
-                          </Badge>
-                          {getStatusBadge(document)}
-                        </div>
+            <div className="space-y-3">
+              {documents.map((document, index) => (
+                <motion.div
+                  key={document.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <Card className={`overflow-hidden hover:shadow-xl transition-all border-l-4 bg-gradient-to-r ${getDocumentColor(document.type).replace('from-', 'border-l-').split(' ')[0]} shadow-lg`}>
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2 flex-wrap">
+                            <div className={`w-10 h-10 bg-gradient-to-br ${getDocumentColor(document.type)} rounded-xl flex items-center justify-center text-white shadow-md`}>
+                              {getDocumentIcon(document.type)}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-semibold text-gray-900">{document.name}</h4>
+                              <Badge variant="outline" className="text-xs mt-1">
+                                {documentTypes.find(t => t.value === document.type)?.label}
+                              </Badge>
+                            </div>
+                            {getStatusBadge(document)}
+                          </div>
                         
                         {document.description && (
                           <p className="text-sm text-gray-600 mb-2">{document.description}</p>
@@ -411,29 +497,35 @@ export function DocumentManager({ vehicle, onClose }: DocumentManagerProps) {
                         </div>
                       </div>
                       
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 mt-3">
                         {document.filePath && (
+                          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                            <Button 
+                              size="sm" 
+                              className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white shadow-md"
+                              onClick={() => handleDownloadDocument(document)}
+                            >
+                              <Download className="w-3 h-3 mr-1" />
+                              Baixar
+                            </Button>
+                          </motion.div>
+                        )}
+                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                           <Button 
                             size="sm" 
-                            variant="outline"
-                            onClick={() => handleDownloadDocument(document)}
+                            variant="destructive"
+                            onClick={() => handleDeleteDocument(document)}
+                            className="shadow-md"
                           >
-                            <Download className="w-3 h-3 mr-1" />
-                            Download
+                            <X className="w-3 h-3 mr-1" />
+                            Remover
                           </Button>
-                        )}
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => handleDeleteDocument(document)}
-                          className="text-red-600 hover:text-red-800"
-                        >
-                          <X className="w-3 h-3" />
-                        </Button>
+                        </motion.div>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
+                </motion.div>
               ))}
             </div>
           )}
