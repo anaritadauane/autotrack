@@ -336,7 +336,7 @@ export function DocumentManager({ vehicle, onClose }: DocumentManagerProps) {
                       <Label htmlFor="documentType">Tipo de Documento *</Label>
                       <Select 
                         value={formData.type} 
-                        onValueChange={(value) => setFormData(prev => ({ ...prev, type: value }))}
+                        onValueChange={(value: string) => setFormData(prev => ({ ...prev, type: value }))}
                         required
                       >
                         <SelectTrigger>
