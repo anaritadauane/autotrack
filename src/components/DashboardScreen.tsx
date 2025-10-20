@@ -20,7 +20,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { VehicleProgressBar } from './VehicleProgressBar';
 import { VehicleDocumentStatus } from './VehicleDocumentStatus';
 import { apiRequest } from '../utils/supabase/client';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, Tooltip as RechartsTooltip } from 'recharts';
 import { VehicleType } from '../utils/vehicleDefaults';
 import logoImage from '../assets/logo.png';
