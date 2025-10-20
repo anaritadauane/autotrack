@@ -206,11 +206,13 @@ export function VehicleForm({ vehicle, onSave, onCancel }: VehicleFormProps) {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const updateNestedField = (section: string, field: string, value: any) => {
-    setFormData(prev => ({
+  type NestedSection = 'insurance' | 'inspection' | 'taxes';
+
+  const updateNestedField = (section: NestedSection, field: string, value: any) => {
+    setFormData((prev) => ({
       ...prev,
       [section]: {
-        ...prev[section as keyof Vehicle],
+        ...(prev[section] as Record<string, any>),
         [field]: value
       }
     }));
@@ -339,7 +341,7 @@ export function VehicleForm({ vehicle, onSave, onCancel }: VehicleFormProps) {
                 <Label htmlFor="type">Tipo de Veículo</Label>
                 <Select 
                   value={formData.type} 
-                  onValueChange={(value) => updateField('type', value)}
+                  onValueChange={(value: VehicleType) => updateField('type', value)}
                 >
                   <SelectTrigger className="border-2">
                     <SelectValue placeholder="Selecione o tipo">
