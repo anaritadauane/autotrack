@@ -14,7 +14,7 @@ import { VEHICLE_TYPES, VehicleType, getDefaultImageForType } from '../utils/veh
 
 interface VehicleFormProps {
   vehicle?: Vehicle;
-  onSave: (vehicle: Vehicle) => void;
+  onSave: (vehicle: any) => void | Promise<void>;
   onCancel: () => void;
 }
 
