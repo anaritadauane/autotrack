@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { LoginScreen } from './components/LoginScreen';
 import { DashboardScreen } from './components/DashboardScreen';
 import { HistoryScreen } from './components/HistoryScreen';
 import { UserProfileScreen } from './components/UserProfileScreen';
 import { PaymentsScreen } from './components/PaymentsScreen';
 import { supabase, apiRequest } from './utils/supabase/client';
-import { Toaster } from "./components/ui/sonner";
-
+import { Toaster } from './components/ui/sonner';
+//@ts-ignore
+import logoImage from './assets/logo.png';
 
 type Screen = 'login' | 'dashboard' | 'history' | 'profile' | 'payments';
 
@@ -95,11 +96,9 @@ export default function App() {
   if (isLoading) {
     return (
       <div className="size-full max-w-md mx-auto bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center relative overflow-hidden mx-auto mb-2">
-            <span className="text-white font-bold text-sm">T</span>
-            <div className="absolute top-0 right-0 w-3 h-8 bg-teal-600"></div>
-            <div className="absolute bottom-0 left-1 w-2 h-1 bg-yellow-400"></div>
+        <div className="text-center space-y-4">
+          <div className="flex justify-center">
+            <img src={logoImage} alt="Autotrack" className="w-20 h-20 object-contain animate-pulse" />
           </div>
           <div className="text-gray-600">Carregando...</div>
         </div>
