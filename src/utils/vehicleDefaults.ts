@@ -1,5 +1,5 @@
 import suvImage1 from '../assets/car1.png';
-import suvImage2 from '../assets/car1.png';
+import suvImage2 from '../assets/car2.png';
 
 export type VehicleType = 'suv' | 'sedan' | 'hatchback' | 'pickup' | 'minivan' | 'coupe' | 'van' | 'other';
 
