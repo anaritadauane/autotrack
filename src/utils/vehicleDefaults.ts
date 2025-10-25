@@ -1,5 +1,5 @@
-import suvImage1 from 'figma:asset/6111758959156ac8878b0f2170ad9e7a793a8c48.png';
-import suvImage2 from 'figma:asset/a1a5454e8073ddda775c7b1c9743ceea23f529ce.png';
+import suvImage1 from '../assets/car1.png';
+import suvImage2 from '../assets/car1.png';
 
 export type VehicleType = 'suv' | 'sedan' | 'hatchback' | 'pickup' | 'minivan' | 'coupe' | 'van' | 'other';
 
