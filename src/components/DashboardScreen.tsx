@@ -692,7 +692,3 @@ export function DashboardScreen({ user, onNavigate, onLogout }: DashboardScreenP
     </div>
   );
 }
-
-    </div>
-  );
-}
