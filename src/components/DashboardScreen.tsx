@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   PlusCircle, Search, Bell, TrendingUp, AlertTriangle, CheckCircle, ChevronRight, 
@@ -23,6 +23,7 @@ import { apiRequest } from '../utils/supabase/client';
 import { toast } from 'sonner';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, Tooltip as RechartsTooltip } from 'recharts';
 import { VehicleType } from '../utils/vehicleDefaults';
+//@ts-ignore
 import logoImage from '../assets/logo.png';
 
 interface DashboardScreenProps {
@@ -60,7 +61,7 @@ export function DashboardScreen({ user, onNavigate, onLogout }: DashboardScreenP
   const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>([]);
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [showVehicleForm, setShowVehicleForm] = useState(false);
-  const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
+  const [editingVehicle, setEditingVehicle] = useState<Vehicle | undefined>(undefined);
   const [showDocumentManager, setShowDocumentManager] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showStatsComparison, setShowStatsComparison] = useState(false);
@@ -241,7 +242,7 @@ export function DashboardScreen({ user, onNavigate, onLogout }: DashboardScreenP
   };
 
   const handleAddVehicle = () => {
-    setEditingVehicle(null);
+    setEditingVehicle(undefined);
     setShowVehicleForm(true);
   };
 
@@ -275,7 +276,7 @@ export function DashboardScreen({ user, onNavigate, onLogout }: DashboardScreenP
 
   const handleVehicleSave = async (savedVehicle: Vehicle) => {
     setShowVehicleForm(false);
-    setEditingVehicle(null);
+    setEditingVehicle(undefined);
     
     await loadVehicles();
     await loadStats();
@@ -285,7 +286,7 @@ export function DashboardScreen({ user, onNavigate, onLogout }: DashboardScreenP
 
   const handleVehicleFormCancel = () => {
     setShowVehicleForm(false);
-    setEditingVehicle(null);
+    setEditingVehicle(undefined);
   };
 
   if (isLoading) {
