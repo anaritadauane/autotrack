@@ -9,7 +9,7 @@ import { User, Mail, Phone, MapPin, Edit, Save, X, Camera, Shield, Calendar, Tre
 import { BottomNavigation } from './BottomNavigation';
 import { apiRequest } from '../utils/supabase/client';
 import { toast } from 'sonner';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 // @ts-ignore
 import logoImage from '../assets/logo.png';
 
