@@ -6,7 +6,6 @@ import { UserProfileScreen } from './components/UserProfileScreen';
 import { PaymentsScreen } from './components/PaymentsScreen';
 import { supabase, apiRequest } from './utils/supabase/client';
 import { Toaster } from './components/ui/sonner';
-//@ts-ignore
 import logoImage from './assets/logo.png';
 
 type Screen = 'login' | 'dashboard' | 'history' | 'profile' | 'payments';

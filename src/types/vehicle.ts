@@ -1,3 +1,5 @@
+import { VehicleType } from '../utils/vehicleDefaults';
+
 export interface Vehicle {
   id?: string;
   name: string;
@@ -7,6 +9,8 @@ export interface Vehicle {
   year: string;
   vin?: string;
   color?: string;
+  imageUrl?: string;
+  type?: VehicleType;
   insurance: {
     date: string;
     status: 'valid' | 'expired' | 'warning';

@@ -9,7 +9,6 @@ import { apiRequest } from '../utils/supabase/client';
 import { toast } from 'sonner';
 import { motion } from 'motion/react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from 'recharts';
-// @ts-ignore
 import logoImage from '../assets/logo.png';
 
 interface PaymentsScreenProps {

@@ -10,7 +10,6 @@ import { BottomNavigation } from './BottomNavigation';
 import { apiRequest } from '../utils/supabase/client';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
-// @ts-ignore
 import logoImage from '../assets/logo.png';
 
 interface UserProfileScreenProps {

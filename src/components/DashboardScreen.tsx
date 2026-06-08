@@ -22,30 +22,13 @@ import { VehicleDocumentStatus } from './VehicleDocumentStatus';
 import { apiRequest } from '../utils/supabase/client';
 import { toast } from 'sonner';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, Tooltip as RechartsTooltip } from 'recharts';
-import { VehicleType } from '../utils/vehicleDefaults';
-//@ts-ignore
+import { Vehicle } from '../types/vehicle';
 import logoImage from '../assets/logo.png';
 
 interface DashboardScreenProps {
   user: { name: string; avatar: string };
   onNavigate: (screen: 'login' | 'dashboard' | 'history' | 'profile' | 'payments') => void;
   onLogout: () => void;
-}
-
-interface Vehicle {
-  id: string;
-  name: string;
-  plate: string;
-  make: string;
-  model: string;
-  year: string;
-  vin?: string;
-  color?: string;
-  imageUrl?: string;
-  type?: VehicleType;
-  insurance: { date: string; status: 'valid' | 'expired' | 'warning'; company?: string; policyNumber?: string };
-  inspection: { date: string; status: 'valid' | 'expired' | 'warning'; center?: string };
-  taxes: { date: string; status: 'valid' | 'expired' | 'warning'; amount?: string };
 }
 
 interface Stats {
