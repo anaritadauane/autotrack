@@ -1,0 +1,25 @@
+{
+  "name": "AutoTrack",
+  "version": "0.1.0",
+  "milestone": {
+    "name": "v0.1 MVP Release",
+    "version": "0.1.0",
+    "status": "in_progress"
+  },
+  "phase": {
+    "number": 1,
+    "name": "Codebase Audit & Foundation",
+    "status": "not_started"
+  },
+  "loop": {
+    "plan": "01-01",
+    "position": "PLAN"
+  },
+  "timestamps": {
+    "created_at": "2026-06-08T00:00:00Z",
+    "updated_at": "2026-06-08T00:00:00Z"
+  },
+  "satellite": {
+    "groom": true
+  }
+}
